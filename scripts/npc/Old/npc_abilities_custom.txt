@@ -1,0 +1,275 @@
+
+// Dota Abilities Override File
+"DOTAAbilities"
+{
+  "Version"   "1"
+
+  "gemtd_build_stone"
+  {
+    "BaseClass" "ability_datadriven"
+    "AbilityTextureName"  "gemtd_build"
+    "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_POINT"
+    "HotKeyOverride"  "Q"
+    "MaxLevel"  "1"
+    "AbilityCastPoint"  "0"
+    "AbilityCooldown" "0.5"
+    "AbilityManaCost" "0"
+    "AbilityCastRange"  "500"
+    "AbilityChannelTime"  "0.5"
+    "precache"
+    {
+      "soundfile" "soundevents/game_sounds_ui.vsndevts"
+    }
+    "OnChannelSucceeded"
+    {
+      "RunScript"
+      {
+        // 脚本路径
+        "ScriptFile"  "scripts/vscripts/custom_abilities.lua"
+        // 传递进去的单位
+        "Target"  "POINT"
+        // 要运行的函数
+        "Function"  "gemtd_build_stone"
+      }
+      "FireSound"
+      {
+        "Target"  "CASTER"
+        "EffectName"  "ui.inv_equip_robes"
+      }
+    }
+  }
+
+  "gemtd_remove"
+  {
+    "BaseClass" "ability_datadriven"
+    "AbilityTextureName"  "gemtd_remove"
+    "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+    "AbilityUnitTargetType" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_BUILDING"
+    "AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_BOTH"
+    "AbilityUnitTargetFlags"  "DOTA_UNIT_TARGET_FLAG_NONE"
+    "HotKeyOverride"  "W"
+    "MaxLevel"  "1"
+    "AbilityCastPoint"  "0"
+    "AbilityCooldown" "0.5"
+    "AbilityManaCost" "0"
+    "AbilityCastRange"  "500"
+    "AbilityChannelTime"  "0.5"
+    "precache"
+    {
+      "soundfile" "soundevents/game_sounds_ui.vsndevts"
+    }
+    "OnChannelSucceeded"
+    {
+      "RunScript"
+      {
+        // 脚本路径
+        "ScriptFile"  "scripts/vscripts/custom_abilities.lua"
+        // 传递进去的单位
+        "Target"  "TARGET"
+        // 要运行的函数
+        "Function"  "gemtd_remove"
+      }
+      "FireSound"
+      {
+        "Target"  "CASTER"
+        "EffectName"  "Tutorial.Notice.Speech"
+      }
+    }
+  }
+  
+  "no_hp_bar"
+  {
+    "BaseClass" "ability_datadriven"
+    "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "Modifiers"
+    {
+      "modifier_no_hp_bar"
+      {
+        "Passive" "1"
+        "IsHidden"  "1"
+        "States"
+        {
+          "MODIFIER_STATE_NO_HEALTH_BAR"  "MODIFIER_STATE_VALUE_ENABLED"
+        }
+      }
+    }
+  }
+
+"gemtd_tower_new"
+  {
+    "BaseClass" "ability_datadriven"
+    "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+    "precache"
+    {
+      "particle"  "particles/units/heroes/hero_witchdoctor/witchdoctor_dust_hit.vpcf"
+    }
+    "Modifiers"
+    {
+      "modifier_name_new"
+      {
+        "Passive" "1"
+        "IsHidden"  "1"
+        "EffectName"  "particles/units/heroes/hero_witchdoctor/witchdoctor_dust_hit.vpcf"
+        "EffectAttachType"  "follow_origin"
+      }
+    }
+  }
+
+
+  "place_tower"
+  {
+      // All abilites require a base class, and since this class is not simply over-riding an old skill, it must be "data_driven"
+      "BaseClass" "ability_datadriven"
+      // We require blah_POINT to gain the "Target" parameter for the lua functions, and blah_AOE to display the aoe when placing the tower
+      "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE" 
+      // These aren't important, but make testing a tad easier
+      "AbilityTextureName" "gemtd_build"
+      "Ability Cast Range" "0"
+      "Ability Cast Point" "0"
+      "MaxLevel"  "1"
+      // This is important. This allows us to see the area the tower will be placed on. You ned to make this the same as PLACED_BUILDING_RADIUS in the lua script for consistency.
+      "AOERadius" "50"
+
+      // When we start the spell (ie, after we have clicked the location we want)
+      "OnSpellStart"
+      {
+          // We want to run a lua script
+          "RunScript"
+          {
+              // The script file we call
+              "ScriptFile"        "scripts/vscripts/custom_abilities.lua"
+              // The specific function we want
+              "Function"          "placeBuilding"
+              // Extra info we want passed to the lua file
+              "Target" "POINT"
+          }       
+      }
+  }
+
+ "remove_tower"
+  {
+      // All abilites require a base class, and since this class is not simply over-riding an old skill, it must be "data_driven"
+      "BaseClass" "ability_datadriven"
+      // We require blah_POINT to gain the "Target" parameter for the lua functions, and blah_AOE to display the aoe when placing the tower
+      "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE" 
+      // These aren't important, but make testing a tad easier
+      "AbilityTextureName" "gemtd_remove"
+      "Ability Cast Range" "0"
+      "Ability Cast Point" "0"
+      "MaxLevel"  "1"
+      // This is important. This allows us to see the area the tower will be placed on. You ned to make this the same as PLACED_BUILDING_RADIUS in the lua script for consistency.
+      "AOERadius" "50"
+
+      // When we start the spell (ie, after we have clicked the location we want)
+      "OnSpellStart"
+      {
+          // We want to run a lua script
+          "RunScript"
+          {
+              // The script file we call
+              "ScriptFile"        "scripts/vscripts/custom_abilities.lua"
+              // The specific function we want
+              "Function"          "removeBuilding"
+              // Extra info we want passed to the lua file
+              "Target" "POINT"
+          }       
+      }
+  }
+   
+  "place_ruby"
+  {
+      // All abilites require a base class, and since this class is not simply over-riding an old skill, it must be "data_driven"
+      "BaseClass" "ability_datadriven"
+      // We require blah_POINT to gain the "Target" parameter for the lua functions, and blah_AOE to display the aoe when placing the tower
+      "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE" 
+      // These aren't important, but make testing a tad easier
+      "AbilityTextureName" "gemtd_ruby"
+      "Ability Cast Range" "0"
+      "Ability Cast Point" "0"
+      "MaxLevel"  "1"
+      // This is important. This allows us to see the area the tower will be placed on. You ned to make this the same as PLACED_BUILDING_RADIUS in the lua script for consistency.
+      "AOERadius" "60"
+
+      // When we start the spell (ie, after we have clicked the location we want)
+      "OnSpellStart"
+      {
+          // We want to run a lua script
+          "RunScript"
+          {
+              // The script file we call
+              "ScriptFile"        "scripts/vscripts/custom_abilities.lua"
+              // The specific function we want
+              "Function"          "placeRuby"
+              // Extra info we want passed to the lua file
+              "Target" "POINT"
+          }       
+      }
+  }
+
+  "barebones_empty1"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+    "MaxLevel"            "0"
+    "BaseClass"           "ability_datadriven"
+    "AbilityTextureName"            "rubick_empty1"
+  }
+  
+  "barebones_empty2"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+    "MaxLevel"            "0"
+    "BaseClass"           "ability_datadriven"
+    "AbilityTextureName"            "rubick_empty1"
+  }
+  
+  "barebones_empty3"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+    "MaxLevel"            "0"
+    "BaseClass"           "ability_datadriven"
+    "AbilityTextureName"            "rubick_empty1"
+  }
+  
+  "barebones_empty4"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+    "MaxLevel"            "0"
+    "BaseClass"           "ability_datadriven"
+    "AbilityTextureName"            "rubick_empty1"
+  }
+  
+  "barebones_empty5"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+    "MaxLevel"            "0"
+    "BaseClass"           "ability_datadriven"
+    "AbilityTextureName"            "rubick_empty1"
+  }
+  
+  "barebones_empty6"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+    "MaxLevel"            "0"
+    "BaseClass"           "ability_datadriven"
+    "AbilityTextureName"            "rubick_empty1"
+  }
+}
+
